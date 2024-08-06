@@ -80,6 +80,34 @@
         .btn svg {
             margin-right: 5px;
         }
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            #meme-container {
+                width: 90vw;
+                height: 60vw;
+            }
+            #meme-text {
+                font-size: 18px;
+            }
+            .btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #meme-text {
+                font-size: 14px;
+            }
+            .btn {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+            .btn svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
     </style>
 </head>
 <body>
