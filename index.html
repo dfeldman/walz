@@ -228,42 +228,52 @@
 ]
 
 
-        const memeText = document.getElementById('meme-text');
-        const makeAnotherBtn = document.getElementById('make-another');
-        const saveBtn = document.getElementById('save');
 
-        function selectRandomPhrase() {
-            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            animateText(randomPhrase);
+const memeText = document.getElementById('meme-text');
+    const makeAnotherBtn = document.getElementById('make-another');
+    const saveBtn = document.getElementById('save');
+
+    let currentInterval = null;
+
+    function selectRandomPhrase() {
+        // Clear any ongoing animation
+        if (currentInterval) {
+            clearInterval(currentInterval);
         }
 
-        function animateText(phrase) {
-            let index = 0;
-            memeText.textContent = '';
-            const interval = setInterval(() => {
-                if (index <= phrase.length) {
-                    memeText.textContent = phrase.slice(0, index);
-                    index++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 50);
-        }
+        const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        animateText(randomPhrase);
+    }
 
-        function saveMeme() {
-            html2canvas(document.getElementById('meme-container')).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'walz.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
+    function animateText(phrase) {
+        let index = 0;
+        memeText.textContent = '';
+        
+        currentInterval = setInterval(() => {
+            if (index <= phrase.length) {
+                memeText.textContent = phrase.slice(0, index);
+                index++;
+            } else {
+                clearInterval(currentInterval);
+                currentInterval = null;
+            }
+        }, 50);
+    }
 
-        makeAnotherBtn.addEventListener('click', selectRandomPhrase);
-        saveBtn.addEventListener('click', saveMeme);
+    function saveMeme() {
+        html2canvas(document.getElementById('meme-container')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'meme.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
 
-        // Initial meme generation
-        selectRandomPhrase();
+    makeAnotherBtn.addEventListener('click', selectRandomPhrase);
+    saveBtn.addEventListener('click', saveMeme);
+
+    // Initial meme generation
+    selectRandomPhrase();
     </script>
 </body>
 </html>
