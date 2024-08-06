@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Generator</title>
+    <meta name="description" content="Learn about Tim Wals">
+    <meta property="og:title" content="Tim Walz Facts">
+    <meta property="og:description" content="Learn about Tim Walz">
+    <meta property="og:image" content="walz01.png">
+    <meta property="og:url" content="https://example.com/meme-generator">
+    <meta name="twitter:card" content="summary_large_image">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #meme-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #meme-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #meme-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            max-width: 90%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        #buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .btn-blue {
+            background-color: #3b82f6;
+        }
+        .btn-blue:hover {
+            background-color: #2563eb;
+        }
+        .btn-green {
+            background-color: #10b981;
+        }
+        .btn-green:hover {
+            background-color: #059669;
+        }
+        .btn svg {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="meme-container">
+        <img id="meme-image" src="https://source.unsplash.com/random/600x400?programming" alt="Meme background">
+        <p id="meme-text"></p>
+        <div id="buttons">
+            <button id="make-another" class="btn btn-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                Make Another
+            </button>
+            <button id="save" class="btn btn-green">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            "When you finally debug that elusive error and it was just a missing semicolon",
+            "That moment when you realize you've been coding for 8 hours straight and forgot to eat",
+            "When the client says 'just one small change' but you know it's going to break everything",
+            "Trying to explain to non-tech friends what you do for a living",
+            "When you accidentally push to production instead of staging",
+            "Debugging: Being the detective in a crime movie where you're also the murderer",
+            "That feeling when your code works and you have no idea why",
+            "When someone asks if you can hack their ex's Facebook account",
+            "The moment you realize you've been staring at the loading icon for 10 minutes",
+            "When the intern's pull request is better than yours"
+        ];
+
+        const memeText = document.getElementById('meme-text');
+        const makeAnotherBtn = document.getElementById('make-another');
+        const saveBtn = document.getElementById('save');
+
+        function selectRandomPhrase() {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            animateText(randomPhrase);
+        }
+
+        function animateText(phrase) {
+            let index = 0;
+            memeText.textContent = '';
+            const interval = setInterval(() => {
+                if (index <= phrase.length) {
+                    memeText.textContent = phrase.slice(0, index);
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+        }
+
+        function saveMeme() {
+            html2canvas(document.getElementById('meme-container')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'meme.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        makeAnotherBtn.addEventListener('click', selectRandomPhrase);
+        saveBtn.addEventListener('click', saveMeme);
+
+        // Initial meme generation
+        selectRandomPhrase();
+    </script>
+</body>
+</html>
